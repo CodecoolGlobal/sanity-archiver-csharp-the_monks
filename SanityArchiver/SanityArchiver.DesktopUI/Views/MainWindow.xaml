@@ -4,7 +4,27 @@
     xmlns:local="clr-namespace:WPF_Explorer_Tree" 
     Title="Window1" Height="300" Width="300" Loaded="Window_Loaded">
     <Grid>
-        <TreeView x:Name="foldersItem" SelectedItemChanged="foldersItem_SelectedItemChanged" Width="Auto" Background="#FFFFFFFF" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="7*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="20*"/>
+        </Grid.RowDefinitions>
+        <DockPanel HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2">
+            <Border CornerRadius="6" BorderBrush="Gray" Background="LightGray" BorderThickness="2" DockPanel.Dock="Top">
+                <Menu DockPanel.Dock="Top" Height="30" BorderBrush="Brown">
+                    <MenuItem Cursor="Hand" Height="30" Header="_Encrypt"></MenuItem>
+                    <MenuItem Cursor="Hand" Height="30" Header="_Archive"></MenuItem>
+                    <MenuItem Cursor="Hand" Height="30" Header="_Edit"></MenuItem>
+                    <MenuItem Cursor="Hand" Height="30" Header="_Copy"></MenuItem>
+                    <MenuItem Cursor="Hand" Height="30" Header="_Move"></MenuItem>
+                </Menu>
+            </Border>
+            <StackPanel></StackPanel>
+        </DockPanel>
+        <TreeView x:Name="foldersItem" SelectedItemChanged="foldersItem_SelectedItemChanged" Grid.Row="1" Grid.Column="0" Margin="0 20 0 0" Padding="10" Width="Auto" Background="WhiteSmoke" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF">
             <TreeView.Resources>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="HeaderTemplate">
@@ -27,6 +47,15 @@
                 </Style>
             </TreeView.Resources>
         </TreeView>
+        <ListView Margin="20" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" BorderThickness="0" Width="480">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="File Name" Width="240"  />
+                    <GridViewColumn Header="Created" Width="120" />
+                    <GridViewColumn Header="Size" Width="120"  />
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>
 

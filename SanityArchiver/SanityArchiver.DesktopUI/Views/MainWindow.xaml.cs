@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 using System.IO;
 using System.Collections.ObjectModel;
+using System.Windows.Forms;
+using MessageBox = System.Windows.MessageBox;
+using System.Security.AccessControl;
+using System.Linq;
+using System.Windows.Data;
 
 namespace WPF_Explorer_Tree
 {
@@ -58,6 +56,7 @@ namespace WPF_Explorer_Tree
             foreach (FileInfo f in info)
             {
                 fclass = new FileInfo_Class();
+                fclass.FullName = f.FullName;
                 fclass.Name = f.Name;
                 FileSizeFormat(fclass, f);
                 fclass.DirectoryName = f.DirectoryName;
@@ -74,6 +73,40 @@ namespace WPF_Explorer_Tree
             FilesSection.ItemsSource = Files;
             
 
+        }
+
+
+        void files_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+            var selectedFile = (System.Windows.Controls.ListView)sender;
+
+            FileInfo_Class x = (FileInfo_Class)selectedFile.SelectedItem;
+
+
+            MessageBoxResult result = MessageBox.Show($"Would you like to greet the world with a \"Hello, world\"?", "My App", MessageBoxButton.OKCancel);
+            switch (result)
+            {
+                case MessageBoxResult.OK:
+                    MessageBox.Show("Change the File name");
+                    FileInfo fileInfo = new FileInfo(x.FullName);
+
+                    FileSecurity fileSecurity = fileInfo.GetAccessControl();
+                    string user = System.Environment.UserName;
+                    fileSecurity.AddAccessRule(new FileSystemAccessRule(user, FileSystemRights.FullControl, AccessControlType.Allow));
+                    fileInfo.SetAccessControl(fileSecurity);
+                    FileInfo_Class f = new FileInfo_Class();
+                    var newFileName = x.DirectoryName + "\\" + "newfilename" + x.Extension;
+                    File.Move(x.FullName, newFileName);
+                    var myFile = Files.FirstOrDefault(fil => fil.FullName == x.FullName);
+                    myFile.FullName = newFileName;
+                    myFile.Name = "newfilename" + x.Extension;
+                    CollectionViewSource.GetDefaultView(Files).Refresh();
+                    break;
+                case MessageBoxResult.Cancel:
+                    MessageBox.Show("Oh well, too bad!", "My App");
+                    break;
+            }
         }
 
         private static void FileSizeFormat(FileInfo_Class fclass, FileInfo f)
@@ -113,7 +146,7 @@ namespace WPF_Explorer_Tree
 
         private void foldersItem_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            TreeView tree = (TreeView)sender;
+            System.Windows.Controls.TreeView tree = (System.Windows.Controls.TreeView)sender;
             TreeViewItem temp = ((TreeViewItem)tree.SelectedItem);
 
             if (temp == null)
@@ -132,7 +165,7 @@ namespace WPF_Explorer_Tree
                     temp2 = "";
                 }
                 SelectedImagePath = temp1 + temp2 + SelectedImagePath;
-                if (temp.Parent.GetType().Equals(typeof(TreeView)))
+                if (temp.Parent.GetType().Equals(typeof(System.Windows.Controls.TreeView)))
                 {
                     break;
                 }

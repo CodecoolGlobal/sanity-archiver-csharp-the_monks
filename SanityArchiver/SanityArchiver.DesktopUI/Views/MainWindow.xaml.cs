@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using System.Collections.ObjectModel;
+using System.IO.Compression;
 
 namespace WPF_Explorer_Tree
 {
@@ -22,7 +23,8 @@ namespace WPF_Explorer_Tree
     public partial class Window1 : Window
     {
 
-        private ObservableCollection<FileInfo_Class> Files = new ObservableCollection<FileInfo_Class>();
+        private ObservableCollection<FileDetails> Files = new ObservableCollection<FileDetails>();
+
         private object dummyNode = null;
 
         public Window1()
@@ -50,19 +52,21 @@ namespace WPF_Explorer_Tree
         {
 
             Files.Clear();
-            FileInfo_Class fclass;
+            FileDetails fclass;
             DirectoryInfo dirInfo = new DirectoryInfo(filename);
             /*var obcinfo = new List<FileInfo_Class>();*/
 
             FileInfo[] info = dirInfo.GetFiles("*.*");
             foreach (FileInfo f in info)
             {
-                fclass = new FileInfo_Class();
+                fclass = new FileDetails();
                 fclass.Name = f.Name;
                 FileSizeFormat(fclass, f);
                 fclass.DirectoryName = f.DirectoryName;
                 fclass.CreationTime = f.CreationTime.ToString();
                 fclass.Extension = f.Extension;
+                fclass.Path = f.FullName;
+             
                 Files.Add(fclass);
             }
             /*DirectoryInfo[] subDirectories = dirInfo.GetDirectories();
@@ -70,13 +74,13 @@ namespace WPF_Explorer_Tree
             {
                 selectfolders(directory.FullName);
             }*/
-            
+
             FilesSection.ItemsSource = Files;
-            
+
 
         }
 
-        private static void FileSizeFormat(FileInfo_Class fclass, FileInfo f)
+        private static void FileSizeFormat(FileDetails fclass, FileInfo f)
         {
             if (f.Length >= (1 << 30))
                 fclass.Size = string.Format("{0}Gb", f.Length >> 30);
@@ -142,6 +146,35 @@ namespace WPF_Explorer_Tree
 
             selectFolders(SelectedImagePath);
             /*MessageBox.Show(SelectedImagePath);*/
+        }
+
+        private void Archive_MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var listOfFiles = Files.Where(f => f.IsSelected).Select(f => f.Name).ToList();
+            MessageBoxResult confirmResult = MessageBox.Show("Are you sure to archive this file ??", String.Join(",", listOfFiles), MessageBoxButton.OKCancel);
+
+            var filesToArchive = new List<FileDetails>();
+            if (confirmResult == MessageBoxResult.OK)
+            {
+                filesToArchive = Files.Where(f => f.IsSelected).ToList();
+                foreach (FileDetails file in filesToArchive) 
+                {
+                    Directory.CreateDirectory(file.DirectoryName + "\\CompresedFiles");
+                    string zipPath =  file.DirectoryName +"\\CompresedFiles"  + "\\" + file.Name.Replace(file.Extension, ".zip");
+                    ZipFile.CreateFromDirectory(file.DirectoryName, zipPath);
+                }
+                
+            }
+            else
+            {
+                // If 'No', do something here.
+            }
+
+        }
+
+        private void FilePath_Checked(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

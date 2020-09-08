@@ -2,7 +2,7 @@
 
 namespace WPF_Explorer_Tree
 {
-    internal class FileInfo_Class
+    internal class FileDetails
     {
         public string Name { get; set; }
         public string Size { get; set; }
@@ -12,8 +12,13 @@ namespace WPF_Explorer_Tree
 
         public string CreationTime { get; set; }
 
+        public string Path { get; set; }
 
-        public FileInfo_Class()
+ 
+        public bool IsSelected { get; set; } = false;
+
+
+        public FileDetails()
         {
 
                 

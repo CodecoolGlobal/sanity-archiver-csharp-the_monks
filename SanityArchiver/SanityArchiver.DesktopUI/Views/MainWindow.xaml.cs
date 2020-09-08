@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+using System.Collections.ObjectModel;
 
 namespace WPF_Explorer_Tree
 {
@@ -20,6 +21,8 @@ namespace WPF_Explorer_Tree
     /// </summary>
     public partial class Window1 : Window
     {
+
+        private ObservableCollection<FileInfo_Class> Files = new ObservableCollection<FileInfo_Class>();
         private object dummyNode = null;
 
         public Window1()
@@ -41,6 +44,48 @@ namespace WPF_Explorer_Tree
                 item.Expanded += new RoutedEventHandler(folder_Expanded);
                 foldersItem.Items.Add(item);
             }
+        }
+
+        public void selectFolders(string filename)
+        {
+
+            Files.Clear();
+            FileInfo_Class fclass;
+            DirectoryInfo dirInfo = new DirectoryInfo(filename);
+            /*var obcinfo = new List<FileInfo_Class>();*/
+
+            FileInfo[] info = dirInfo.GetFiles("*.*");
+            foreach (FileInfo f in info)
+            {
+                fclass = new FileInfo_Class();
+                fclass.Name = f.Name;
+                FileSizeFormat(fclass, f);
+                fclass.DirectoryName = f.DirectoryName;
+                fclass.CreationTime = f.CreationTime.ToString();
+                fclass.Extension = f.Extension;
+                Files.Add(fclass);
+            }
+            /*DirectoryInfo[] subDirectories = dirInfo.GetDirectories();
+            foreach (DirectoryInfo directory in subDirectories)
+            {
+                selectfolders(directory.FullName);
+            }*/
+            
+            FilesSection.ItemsSource = Files;
+            
+
+        }
+
+        private static void FileSizeFormat(FileInfo_Class fclass, FileInfo f)
+        {
+            if (f.Length >= (1 << 30))
+                fclass.Size = string.Format("{0}Gb", f.Length >> 30);
+            else
+                            if (f.Length >= (1 << 20))
+                fclass.Size = string.Format("{0}Mb", f.Length >> 20);
+            else
+                            if (f.Length >= (1 << 10))
+                fclass.Size = string.Format("{0}Kb", f.Length >> 10);
         }
 
         void folder_Expanded(object sender, RoutedEventArgs e)
@@ -95,8 +140,8 @@ namespace WPF_Explorer_Tree
                 temp2 = @"\";
             }
 
-            // show user selected path
-            MessageBox.Show(SelectedImagePath);
+            selectFolders(SelectedImagePath);
+            /*MessageBox.Show(SelectedImagePath);*/
         }
     }
 }

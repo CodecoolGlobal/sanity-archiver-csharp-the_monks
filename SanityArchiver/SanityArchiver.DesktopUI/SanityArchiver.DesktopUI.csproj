@@ -67,6 +67,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\EditFileProperties.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -76,6 +80,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="HeaderToImageConverter.cs" />
+    <Compile Include="Views\EditFileProperties.xaml.cs">
+      <DependentUpon>EditFileProperties.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FileInfo_Class.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

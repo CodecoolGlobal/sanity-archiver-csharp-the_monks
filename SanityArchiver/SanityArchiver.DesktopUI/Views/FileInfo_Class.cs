@@ -2,7 +2,7 @@
 
 namespace WPF_Explorer_Tree
 {
-    internal class FileInfo_Class
+    public class FileInfo_Class
     {
         public string Name { get; set; }
         public string FullName { get; set; }

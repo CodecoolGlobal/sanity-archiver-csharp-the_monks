@@ -11,6 +11,8 @@ using MessageBox = System.Windows.MessageBox;
 using System.Security.AccessControl;
 using System.Linq;
 using System.Windows.Data;
+using SanityArchiver;
+using System.Windows.Forms.VisualStyles;
 
 namespace WPF_Explorer_Tree
 {
@@ -20,7 +22,7 @@ namespace WPF_Explorer_Tree
     public partial class Window1 : Window
     {
 
-        private ObservableCollection<FileInfo_Class> Files = new ObservableCollection<FileInfo_Class>();
+        protected ObservableCollection<FileInfo_Class> Files = new ObservableCollection<FileInfo_Class>();
         private object dummyNode = null;
 
         public Window1()
@@ -83,30 +85,10 @@ namespace WPF_Explorer_Tree
 
             FileInfo_Class x = (FileInfo_Class)selectedFile.SelectedItem;
 
+            EditFileProperties window = new EditFileProperties(x, Files);
+            window.Show();
 
-            MessageBoxResult result = MessageBox.Show($"Would you like to greet the world with a \"Hello, world\"?", "My App", MessageBoxButton.OKCancel);
-            switch (result)
-            {
-                case MessageBoxResult.OK:
-                    MessageBox.Show("Change the File name");
-                    FileInfo fileInfo = new FileInfo(x.FullName);
 
-                    FileSecurity fileSecurity = fileInfo.GetAccessControl();
-                    string user = System.Environment.UserName;
-                    fileSecurity.AddAccessRule(new FileSystemAccessRule(user, FileSystemRights.FullControl, AccessControlType.Allow));
-                    fileInfo.SetAccessControl(fileSecurity);
-                    FileInfo_Class f = new FileInfo_Class();
-                    var newFileName = x.DirectoryName + "\\" + "newfilename" + x.Extension;
-                    File.Move(x.FullName, newFileName);
-                    var myFile = Files.FirstOrDefault(fil => fil.FullName == x.FullName);
-                    myFile.FullName = newFileName;
-                    myFile.Name = "newfilename" + x.Extension;
-                    CollectionViewSource.GetDefaultView(Files).Refresh();
-                    break;
-                case MessageBoxResult.Cancel:
-                    MessageBox.Show("Oh well, too bad!", "My App");
-                    break;
-            }
         }
 
         private static void FileSizeFormat(FileInfo_Class fclass, FileInfo f)

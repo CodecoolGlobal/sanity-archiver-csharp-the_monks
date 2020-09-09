@@ -25,6 +25,13 @@ namespace WPF_Explorer_Tree
         protected ObservableCollection<FileInfo_Class> Files = new ObservableCollection<FileInfo_Class>();
         private object dummyNode = null;
 
+        public delegate void RefreshList();
+        public event RefreshList RefreshListEvent;
+        private void RefreshListView()
+        {
+            foldersItem.Items.Refresh();
+        }
+
         public Window1()
         {
             InitializeComponent();

@@ -42,6 +42,7 @@ namespace SanityArchiver
                 myFile.Name = "newfilename" + "." + Extension.Text;
                 File.Move(f.Name, Path.ChangeExtension(f.FullName, ".jpg"));
                 CollectionViewSource.GetDefaultView(Files).Refresh();
+
             }
             catch (Exception ex)
             {

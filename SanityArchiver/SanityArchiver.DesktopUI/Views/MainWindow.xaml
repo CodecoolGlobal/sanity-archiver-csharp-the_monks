@@ -15,7 +15,8 @@
         <DockPanel HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2">
             <Border CornerRadius="6" BorderBrush="Gray" Background="LightGray" BorderThickness="2" DockPanel.Dock="Top">
                 <Menu DockPanel.Dock="Top" Height="30" BorderBrush="Brown">
-                    <MenuItem Cursor="Hand" Height="30" Header="_Encrypt"></MenuItem>
+                    <MenuItem Cursor="Hand" Height="30" Header="_Encrypt" Click="Encrypt_MenuItem_Click"></MenuItem>
+                    <MenuItem Cursor="Hand" Height="30" Header="_Decrypt" Click="Decrypt_MenuItem_Click_1"></MenuItem>
                     <MenuItem Cursor="Hand" Height="30" Header="_Archive" Click="Archive_MenuItem_Click"></MenuItem>
                     <MenuItem Cursor="Hand" Height="30" Header="_Edit"></MenuItem>
                     <MenuItem Cursor="Hand" Height="30" Header="_Copy"></MenuItem>

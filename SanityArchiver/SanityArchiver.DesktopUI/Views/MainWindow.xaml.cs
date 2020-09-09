@@ -13,6 +13,8 @@ using System.Linq;
 using System.Windows.Data;
 using SanityArchiver;
 using System.Windows.Forms.VisualStyles;
+using System.Collections.Generic;
+using Ionic.Zip;
 
 namespace WPF_Explorer_Tree
 {

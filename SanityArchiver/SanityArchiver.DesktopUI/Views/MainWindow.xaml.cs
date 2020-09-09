@@ -66,7 +66,7 @@ namespace WPF_Explorer_Tree
                 fclass.CreationTime = f.CreationTime.ToString();
                 fclass.Extension = f.Extension;
                 fclass.Path = f.FullName;
-             
+
                 Files.Add(fclass);
             }
             /*DirectoryInfo[] subDirectories = dirInfo.GetDirectories();
@@ -158,7 +158,7 @@ namespace WPF_Explorer_Tree
             {
                 filesToArchive = Files.Where(f => f.IsSelected).ToList();
                 var archiveDirectory = Directory.CreateDirectory(filesToArchive[0].DirectoryName + "\\CompresedFiles");
-                string zipPath = archiveDirectory.FullName +  "\\Archive.zip";
+                string zipPath = archiveDirectory.FullName + "\\Archive.zip";
                 /*createZipFile(filesToArchive[0].DirectoryName, "Archive");*/
 
 
@@ -173,7 +173,7 @@ namespace WPF_Explorer_Tree
                     zip.Save(filesToArchive[0].DirectoryName + "\\Archive.zip");
 
                 }
-                
+
             }
             else
             {
@@ -182,32 +182,115 @@ namespace WPF_Explorer_Tree
 
         }
 
-        private void FilePath_Checked(object sender, RoutedEventArgs e)
+
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        
-
-       /* public void createZipFile(string zipPath, string archiveFileName)
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
-            //DirectoryToBeArchive = "C:\\Temp\\myZipFile"
-            string DirectoryToBeArchive = zipPath + "\\" + archiveFileName;
 
-            //Some logical error here, you probably meant to use File.Exists()
-            //Basically, as you can't find a directory with name C:\\Temp\\myZipFile.zip, you always jump into else
-            if (Directory.Exists(DirectoryToBeArchive + ".zip"))
+        }
+
+        private void Encrypt_MenuItem_Click(object sender, RoutedEventArgs e)
+
+        {
+            var listOfFiles = Files.Where(f => f.IsSelected).ToList();
+
+
+            if (listOfFiles.Count() == 1 || listOfFiles[0].Extension == ".txt" )
             {
-                File.Delete(DirectoryToBeArchive);
-                ZipFile.CreateFromDirectory(zipPath, DirectoryToBeArchive + ".zip", CompressionLevel.Fastest, false);
+                try
+                {
+                    foreach (FileDetails file in listOfFiles)
+                    {
+                        AddEncryption(file.Path);
+                       
+                        
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+
+                Console.ReadLine();
+                void AddEncryption(string FileName)
+                {
+
+                    File.Encrypt(FileName);
+                }
+            }
+            else 
+            {
+                if (listOfFiles.Count() != 1)
+                {
+                    MessageBox.Show("Only 1 file can be encrypted");
+                } else if (listOfFiles[0].Extension != ".txt")
+                {
+                    MessageBox.Show("Only .txt files can be encrypted");
+                }
+                
+
+            }
+
+        }
+
+        private void Decrypt_MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            var listOfFiles = Files.Where(f => f.IsSelected).ToList();
+
+
+            if (listOfFiles.Count() == 1 || listOfFiles[0].Extension == ".txt")
+            {
+                try
+                {
+                    foreach (FileDetails file in listOfFiles)
+                    {
+                        
+                        RemoveEncryption(file.Path);
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+
+                Console.ReadLine();
+                void RemoveEncryption(string FileName)
+                {
+
+                    File.Decrypt(FileName);
+                }
             }
             else
-                //It will try to overwrite your existing "DirectoryToBeArchive".zip file 
-                ZipFile.CreateFromDirectory(zipPath, DirectoryToBeArchive + ".zip", CompressionLevel.Fastest, false);
+            {
+                if (listOfFiles.Count() != 1)
+                {
+                    MessageBox.Show("Only 1 file can be encrypted");
+                }
+                else if (listOfFiles[0].Extension != ".ENC")
+                {
+                    MessageBox.Show("Only .ENC files can be encrypted");
+                }
 
-            //This won't work as well btw, as there probably is no directory 
-            //with name C:\\Temp\\myZipFile
-            Directory.Delete(DirectoryToBeArchive);
-        }*/
+
+            }
+        }
+
+
+
     }
+
 }
+
+
+
+   
+

@@ -13,7 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using System.Collections.ObjectModel;
-using System.IO.Compression;
+using Ionic.Zip;
 
 namespace WPF_Explorer_Tree
 {
@@ -157,11 +157,21 @@ namespace WPF_Explorer_Tree
             if (confirmResult == MessageBoxResult.OK)
             {
                 filesToArchive = Files.Where(f => f.IsSelected).ToList();
-                foreach (FileDetails file in filesToArchive) 
+                var archiveDirectory = Directory.CreateDirectory(filesToArchive[0].DirectoryName + "\\CompresedFiles");
+                string zipPath = archiveDirectory.FullName +  "\\Archive.zip";
+                /*createZipFile(filesToArchive[0].DirectoryName, "Archive");*/
+
+
+                using (ZipFile zip = new ZipFile())
                 {
-                    Directory.CreateDirectory(file.DirectoryName + "\\CompresedFiles");
-                    string zipPath =  file.DirectoryName +"\\CompresedFiles"  + "\\" + file.Name.Replace(file.Extension, ".zip");
-                    ZipFile.CreateFromDirectory(file.DirectoryName, zipPath);
+
+                    foreach (FileDetails file in filesToArchive)
+                    {
+                        zip.AddFile(file.Path);
+
+                    }
+                    zip.Save(filesToArchive[0].DirectoryName + "\\Archive.zip");
+
                 }
                 
             }
@@ -176,5 +186,28 @@ namespace WPF_Explorer_Tree
         {
 
         }
+
+        
+
+       /* public void createZipFile(string zipPath, string archiveFileName)
+        {
+            //DirectoryToBeArchive = "C:\\Temp\\myZipFile"
+            string DirectoryToBeArchive = zipPath + "\\" + archiveFileName;
+
+            //Some logical error here, you probably meant to use File.Exists()
+            //Basically, as you can't find a directory with name C:\\Temp\\myZipFile.zip, you always jump into else
+            if (Directory.Exists(DirectoryToBeArchive + ".zip"))
+            {
+                File.Delete(DirectoryToBeArchive);
+                ZipFile.CreateFromDirectory(zipPath, DirectoryToBeArchive + ".zip", CompressionLevel.Fastest, false);
+            }
+            else
+                //It will try to overwrite your existing "DirectoryToBeArchive".zip file 
+                ZipFile.CreateFromDirectory(zipPath, DirectoryToBeArchive + ".zip", CompressionLevel.Fastest, false);
+
+            //This won't work as well btw, as there probably is no directory 
+            //with name C:\\Temp\\myZipFile
+            Directory.Delete(DirectoryToBeArchive);
+        }*/
     }
 }

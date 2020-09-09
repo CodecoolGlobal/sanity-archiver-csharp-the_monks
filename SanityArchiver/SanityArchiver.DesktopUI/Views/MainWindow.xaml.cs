@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 using System.IO;
 using System.Collections.ObjectModel;
-using Ionic.Zip;
+using System.Windows.Forms;
+using MessageBox = System.Windows.MessageBox;
+using System.Security.AccessControl;
+using System.Linq;
+using System.Windows.Data;
+using SanityArchiver;
+using System.Windows.Forms.VisualStyles;
 
 namespace WPF_Explorer_Tree
 {
@@ -24,8 +23,14 @@ namespace WPF_Explorer_Tree
     {
 
         private ObservableCollection<FileDetails> Files = new ObservableCollection<FileDetails>();
-
         private object dummyNode = null;
+
+        public delegate void RefreshList();
+        public event RefreshList RefreshListEvent;
+        private void RefreshListView()
+        {
+            foldersItem.Items.Refresh();
+        }
 
         public Window1()
         {
@@ -54,7 +59,7 @@ namespace WPF_Explorer_Tree
             Files.Clear();
             FileDetails fclass;
             DirectoryInfo dirInfo = new DirectoryInfo(filename);
-            /*var obcinfo = new List<FileInfo_Class>();*/
+            /*var obcinfo = new List<FileDetails>();*/
 
             FileInfo[] info = dirInfo.GetFiles("*.*");
             foreach (FileInfo f in info)
@@ -76,6 +81,25 @@ namespace WPF_Explorer_Tree
             }*/
 
             FilesSection.ItemsSource = Files;
+
+
+        }
+
+
+        void files_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+            var selectedFile = (System.Windows.Controls.ListView)sender;
+
+            FileDetails x = (FileDetails)selectedFile.SelectedItem;
+
+            EditFileProperties window = new EditFileProperties(x, Files);
+            window.ShowDialog();
+            if(window.DialogResult == true)
+            {
+                this.Files = window.Files;
+                CollectionViewSource.GetDefaultView(Files).Refresh();
+            }
 
 
         }
@@ -117,7 +141,7 @@ namespace WPF_Explorer_Tree
 
         private void foldersItem_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            TreeView tree = (TreeView)sender;
+            System.Windows.Controls.TreeView tree = (System.Windows.Controls.TreeView)sender;
             TreeViewItem temp = ((TreeViewItem)tree.SelectedItem);
 
             if (temp == null)
@@ -136,7 +160,7 @@ namespace WPF_Explorer_Tree
                     temp2 = "";
                 }
                 SelectedImagePath = temp1 + temp2 + SelectedImagePath;
-                if (temp.Parent.GetType().Equals(typeof(TreeView)))
+                if (temp.Parent.GetType().Equals(typeof(System.Windows.Controls.TreeView)))
                 {
                     break;
                 }

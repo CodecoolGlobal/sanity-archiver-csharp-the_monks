@@ -47,7 +47,12 @@
                 </Style>
             </TreeView.Resources>
         </TreeView>
-        <ListView ItemsSource="{Binding Files}" x:Name="FilesSection" Margin="20" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" BorderThickness="0" Width="760">
+        <ListView ItemsSource="{Binding Files}" x:Name="FilesSection" Margin="20" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" BorderThickness="0" Width="760" MouseDoubleClick="files_MouseDoubleClick">
+            <ListView.Resources>
+                <Style TargetType="ListViewItem" >
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                </Style>
+            </ListView.Resources>
             <ListView.View>
                 <GridView x:Name="gvFiles">
                     <GridViewColumn Header="Select" Width="40">

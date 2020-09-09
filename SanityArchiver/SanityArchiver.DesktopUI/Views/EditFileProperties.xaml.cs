@@ -26,6 +26,7 @@ namespace SanityArchiver
 
         private void SaveEdit_Click(object sender, RoutedEventArgs e)
         {
+            DialogResult = true;
             try
             {
                 FileInfo fileInfo = new FileInfo(FileInfos.Path);
@@ -57,6 +58,7 @@ namespace SanityArchiver
 
         private void CloseEdit_Click(object sender, RoutedEventArgs e)
         {
+            DialogResult = false;
             Close();
         }
     }

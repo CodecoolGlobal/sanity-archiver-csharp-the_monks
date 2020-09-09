@@ -44,11 +44,13 @@
                 Width="100"
                 HorizontalAlignment="Center"
                 Click="SaveEdit_Click"
-                Content="Save" />
+                Content="Save"
+                IsDefault="True"/>
             <Button
                 Width="100"
                 Click="CloseEdit_Click"
-                Content="Close" />
+                Content="Close"
+                IsCancel="True"/>
         </StackPanel>
     </Grid>
 </Window>

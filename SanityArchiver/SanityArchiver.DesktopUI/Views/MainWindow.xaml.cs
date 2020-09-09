@@ -93,7 +93,12 @@ namespace WPF_Explorer_Tree
             FileDetails x = (FileDetails)selectedFile.SelectedItem;
 
             EditFileProperties window = new EditFileProperties(x, Files);
-            window.Show();
+            window.ShowDialog();
+            if(window.DialogResult == true)
+            {
+                this.Files = window.Files;
+                CollectionViewSource.GetDefaultView(Files).Refresh();
+            }
 
 
         }

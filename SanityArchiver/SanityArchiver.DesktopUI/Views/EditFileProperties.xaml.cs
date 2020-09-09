@@ -15,10 +15,10 @@ namespace SanityArchiver
     public partial class EditFileProperties : Window
     {
 
-        public FileInfo_Class FileInfos { get; set; }
-        public ObservableCollection<FileInfo_Class> Files { get; set; }
+        public FileDetails FileInfos { get; set; }
+        public ObservableCollection<FileDetails> Files { get; set; }
 
-        public EditFileProperties(FileInfo_Class fileInfo, ObservableCollection<FileInfo_Class> filesCollection)
+        public EditFileProperties(FileDetails fileInfo, ObservableCollection<FileDetails> filesCollection)
         {
             InitializeComponent();
             FileInfos = fileInfo;
@@ -28,19 +28,19 @@ namespace SanityArchiver
         {
             try
             {
-                FileInfo fileInfo = new FileInfo(FileInfos.FullName);
+                FileInfo fileInfo = new FileInfo(FileInfos.Path);
 
                 FileSecurity fileSecurity = fileInfo.GetAccessControl();
                 string user = Environment.UserName;
                 fileSecurity.AddAccessRule(new FileSystemAccessRule(user, FileSystemRights.FullControl, AccessControlType.Allow));
                 fileInfo.SetAccessControl(fileSecurity);
-                FileInfo_Class f = new FileInfo_Class();
+                FileDetails f = new FileDetails();
                 var newFileName = FileInfos.DirectoryName + "\\" + FileName.Text + "." + Extension.Text;
-                File.Move(FileInfos.FullName, newFileName);
-                var myFile = Files.FirstOrDefault(fil => fil.FullName == fileInfo.FullName);
-                myFile.FullName = newFileName;
+                File.Move(FileInfos.Path, newFileName);
+                var myFile = Files.FirstOrDefault(fil => fil.Path == fileInfo.FullName);
+                myFile.Path = newFileName;
                 myFile.Name = "newfilename" + "." + Extension.Text;
-                File.Move(f.Name, Path.ChangeExtension(f.FullName, ".jpg"));
+                File.Move(f.Name, Path.ChangeExtension(f.Path, ".jpg"));
                 CollectionViewSource.GetDefaultView(Files).Refresh();
 
             }

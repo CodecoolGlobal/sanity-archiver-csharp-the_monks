@@ -83,7 +83,7 @@
     <Compile Include="Views\EditFileProperties.xaml.cs">
       <DependentUpon>EditFileProperties.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FileInfo_Class.cs" />
+    <Compile Include="Views\FileDetails.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

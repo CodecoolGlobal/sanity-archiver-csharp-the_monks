@@ -22,7 +22,7 @@ namespace WPF_Explorer_Tree
     public partial class Window1 : Window
     {
 
-        protected ObservableCollection<FileInfo_Class> Files = new ObservableCollection<FileInfo_Class>();
+        private ObservableCollection<FileDetails> Files = new ObservableCollection<FileDetails>();
         private object dummyNode = null;
 
         public delegate void RefreshList();
@@ -57,15 +57,15 @@ namespace WPF_Explorer_Tree
         {
 
             Files.Clear();
-            FileInfo_Class fclass;
+            FileDetails fclass;
             DirectoryInfo dirInfo = new DirectoryInfo(filename);
-            /*var obcinfo = new List<FileInfo_Class>();*/
+            /*var obcinfo = new List<FileDetails>();*/
 
             FileInfo[] info = dirInfo.GetFiles("*.*");
             foreach (FileInfo f in info)
             {
-                fclass = new FileInfo_Class();
-                fclass.FullName = f.FullName;
+                fclass = new FileDetails();
+                fclass.Path = f.FullName;
                 fclass.Name = f.Name;
                 FileSizeFormat(fclass, f);
                 fclass.DirectoryName = f.DirectoryName;
@@ -90,7 +90,7 @@ namespace WPF_Explorer_Tree
 
             var selectedFile = (System.Windows.Controls.ListView)sender;
 
-            FileInfo_Class x = (FileInfo_Class)selectedFile.SelectedItem;
+            FileDetails x = (FileDetails)selectedFile.SelectedItem;
 
             EditFileProperties window = new EditFileProperties(x, Files);
             window.Show();
@@ -98,7 +98,7 @@ namespace WPF_Explorer_Tree
 
         }
 
-        private static void FileSizeFormat(FileInfo_Class fclass, FileInfo f)
+        private static void FileSizeFormat(FileDetails fclass, FileInfo f)
         {
             if (f.Length >= (1 << 30))
                 fclass.Size = string.Format("{0}Gb", f.Length >> 30);

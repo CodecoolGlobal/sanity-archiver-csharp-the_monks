@@ -261,7 +261,7 @@ namespace WPF_Explorer_Tree
                     {
                        
                         EncryptDecrypt.EncryptFile(file.Path, "12345678");
-                        MessageBox.Show("Encrypted succesfuly " + file.Name);
+                        MessageBox.Show("Encryption succesfuly " + file.Name);
 
                     }
 
@@ -379,7 +379,7 @@ namespace WPF_Explorer_Tree
                     foreach (FileDetails file in listOfFiles)
                     {  
                         EncryptDecrypt.DecryptFile(file.Path, "12345678");
-                        MessageBox.Show("Encrypted succesfuly " + file.Name);
+                        MessageBox.Show("Decryption succesfuly " + file.Name);
                     }
 
                 }

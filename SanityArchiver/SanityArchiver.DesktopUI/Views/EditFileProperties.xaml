@@ -27,6 +27,7 @@
             Width="100"
             Name="FileName"
             Grid.Row="0"
+            MaxLength="255"
             FontSize="12" Margin="23.2,32,9.6,33" Grid.Column="2" />
 
         <Label Content="Extension" Height="28" FontWeight="DemiBold" HorizontalAlignment="Left" Name="ExtensionLabel" Margin="123.2,11,0,54" Grid.Column="2" Grid.ColumnSpan="3"/>
@@ -35,6 +36,7 @@
             Width="54"
             Name="Extension"
             Grid.Row="0"
+            MaxLength="3"
             FontSize="12" Margin="127.2,32,18.8,33" Grid.Column="2" Grid.ColumnSpan="3" />
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="4,76,128,0" Grid.ColumnSpan="6" Grid.Column="1">

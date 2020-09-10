@@ -213,9 +213,7 @@ namespace WPF_Explorer_Tree
             if (confirmResult == MessageBoxResult.OK)
             {
                 filesToArchive = Files.Where(f => f.IsSelected).ToList();
-                var archiveDirectory = Directory.CreateDirectory(filesToArchive[0].DirectoryName + "\\CompresedFiles");
-                string zipPath = archiveDirectory.FullName + "\\Archive.zip";
-                /*createZipFile(filesToArchive[0].DirectoryName, "Archive");*/
+                
 
 
                 using (ZipFile zip = new ZipFile())
@@ -228,10 +226,10 @@ namespace WPF_Explorer_Tree
                         zip.AddFile(file.Path);
 
                     }
-                    zip.Save(filesToArchive[0].DirectoryName + "\\Archive.zip");
+                    zip.Save(filesToArchive[0].DirectoryName + "\\compresed.zip");
                     zipFile.Name = "Archive.zip";
-                    var now = new DateTime();
-                    zipFile.CreationTime = now.Date.ToLocalTime().ToString();
+                    var now = DateTime.Now;
+                    zipFile.CreationTime = now.ToString();
                     Files.Add(zipFile);
 
                 }

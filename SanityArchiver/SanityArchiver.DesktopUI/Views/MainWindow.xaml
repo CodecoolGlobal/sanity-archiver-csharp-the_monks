@@ -18,7 +18,6 @@
                     <MenuItem Cursor="Hand" Height="30" Header="_Encrypt" Click="Encrypt_MenuItem_Click"></MenuItem>
                     <MenuItem Cursor="Hand" Height="30" Header="_Decrypt" Click="Decrypt_MenuItem_Click_1"></MenuItem>
                     <MenuItem Cursor="Hand" Height="30" Header="_Archive" Click="Archive_MenuItem_Click"></MenuItem>
-                    <MenuItem Cursor="Hand" Height="30" Header="_Edit"></MenuItem>
                     <MenuItem Cursor="Hand" Height="30" Header="_Copy"></MenuItem>
                     <MenuItem Cursor="Hand" Height="30" Header="_Move"></MenuItem>
                     <MenuItem Cursor="Hand" Height="30" Header="_Open" Name="btnOpenFile" Click="btnOpenFile_Click"></MenuItem>
@@ -26,7 +25,12 @@
             </Border>
             <StackPanel></StackPanel>
         </DockPanel>
-        <TreeView x:Name="foldersItem" SelectedItemChanged="foldersItem_SelectedItemChanged" Grid.Row="1" Grid.Column="0" Margin="0 20 0 0" Padding="10" Width="Auto" Background="WhiteSmoke" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF">
+        <Grid RenderTransformOrigin="0.921,1.139">
+            <TextBlock Name="totalRecording">
+               
+            </TextBlock>
+        </Grid>
+        <TreeView x:Name="foldersItem" SelectedItemChanged="foldersItem_SelectedItemChanged" Grid.Row="2" Grid.Column="0" Margin="0 20 0 0" Padding="10" Width="Auto" Background="WhiteSmoke" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF">
             <TreeView.Resources>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="HeaderTemplate">
@@ -49,7 +53,7 @@
                 </Style>
             </TreeView.Resources>
         </TreeView>
-        <ListView ItemsSource="{Binding Files}" x:Name="FilesSection" Margin="20" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" BorderThickness="0" Width="760" MouseDoubleClick="files_MouseDoubleClick">
+        <ListView ItemsSource="{Binding Files}" x:Name="FilesSection" Margin="20" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="1" BorderThickness="0" Width="760" MouseDoubleClick="files_MouseDoubleClick">
             <ListView.Resources>
                 <Style TargetType="ListViewItem" >
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
@@ -61,7 +65,6 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <CheckBox IsChecked="{Binding IsSelected}" x:Name="FilePath" />
-                                
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

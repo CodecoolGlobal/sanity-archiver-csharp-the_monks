@@ -28,6 +28,8 @@ namespace WPF_Explorer_Tree
 
         private ObservableCollection<FileDetails> Files = new ObservableCollection<FileDetails>();
         private object dummyNode = null;
+        private long FolderSize { get; set; }
+        private string FolderSizeText { get; set; }
 
         public delegate void RefreshList();
         public event RefreshList RefreshListEvent;
@@ -63,21 +65,37 @@ namespace WPF_Explorer_Tree
             Files.Clear();
             FileDetails fclass;
             DirectoryInfo dirInfo = new DirectoryInfo(filename);
-            /*var obcinfo = new List<FileDetails>();*/
 
-            FileInfo[] info = dirInfo.GetFiles("*.*");
-            foreach (FileInfo f in info)
+            FolderSize = DirSize(dirInfo);
+           
+            if (FolderSize >= (1 << 30))
+                FolderSizeText = string.Format("{0}Gb", FolderSize >> 30);
+            else
+                            if (FolderSize >= (1 << 20))
+                FolderSizeText = string.Format("{0}Mb", FolderSize >> 20);
+            else
+                            if (FolderSize >= (1 << 10))
+                FolderSizeText = string.Format("{0}Kb", FolderSize >> 10);
+            totalRecording.Text = $"Folder size: {FolderSizeText}";
+
+
+            try
             {
-                fclass = new FileDetails();
-                fclass.Name = f.Name;
-                FileSizeFormat(fclass, f);
-                fclass.DirectoryName = f.DirectoryName;
-                fclass.CreationTime = f.CreationTime.ToString();
-                fclass.Extension = f.Extension;
-                fclass.Path = f.FullName;
+                FileInfo[] info = dirInfo.GetFiles("*.*");
+                foreach (FileInfo f in info)
+                {
+                    fclass = new FileDetails();
+                    fclass.Name = f.Name;
+                    FileSizeFormat(fclass, f);
+                    fclass.DirectoryName = f.DirectoryName;
+                    fclass.CreationTime = f.CreationTime.ToString();
+                    fclass.Extension = f.Extension;
+                    fclass.Path = f.FullName;
 
-                Files.Add(fclass);
+                    Files.Add(fclass);
+                }
             }
+            catch { }
             /*DirectoryInfo[] subDirectories = dirInfo.GetDirectories();
             foreach (DirectoryInfo directory in subDirectories)
             {
@@ -219,17 +237,6 @@ namespace WPF_Explorer_Tree
         }
 
 
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void Encrypt_MenuItem_Click(object sender, RoutedEventArgs e)
 
         {
@@ -243,9 +250,7 @@ namespace WPF_Explorer_Tree
                     foreach (FileDetails file in listOfFiles)
                     {
                         AddEncryption(file.Path);
-                       
-                        
-
+                 
                     }
 
                 }
@@ -318,6 +323,29 @@ namespace WPF_Explorer_Tree
 
 
             }
+        }
+
+        public static long DirSize(DirectoryInfo d)
+        {
+            long size = 0;
+            // Add file sizes.
+            try
+            {
+                FileInfo[] fis = d.GetFiles();
+                foreach (FileInfo fi in fis)
+                {
+                    size += fi.Length;
+                }
+                // Add subdirectory sizes.
+                DirectoryInfo[] dis = d.GetDirectories();
+                foreach (DirectoryInfo di in dis)
+                {
+                    size += DirSize(di);
+                }
+                
+            }
+            catch { }
+            return size;
         }
 
 

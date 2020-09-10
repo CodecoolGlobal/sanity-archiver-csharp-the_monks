@@ -56,7 +56,7 @@
             <Button
                 Width="100"
                 Click="CloseEdit_Click"
-                Content="Close"
+                Content="Cancel"
                 FontSize="10"
                 IsCancel="True"/>
         </StackPanel>

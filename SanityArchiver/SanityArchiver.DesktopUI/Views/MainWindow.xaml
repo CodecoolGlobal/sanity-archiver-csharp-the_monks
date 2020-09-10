@@ -5,7 +5,7 @@
     Title="Window1" Height="700" Width="700" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -13,7 +13,7 @@
             <RowDefinition Height="20*"/>
         </Grid.RowDefinitions>
         <DockPanel HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2">
-            <Border CornerRadius="6" BorderBrush="Gray" Background="LightGray" BorderThickness="2" DockPanel.Dock="Top">
+            <Border BorderBrush="Black" Background="LightGray" BorderThickness="1" DockPanel.Dock="Top">
                 <Menu DockPanel.Dock="Top" Height="30" BorderBrush="Brown">
                     <MenuItem Cursor="Hand" Height="30" Header="_Encrypt" Click="Encrypt_MenuItem_Click"></MenuItem>
                     <MenuItem Cursor="Hand" Height="30" Header="_Decrypt" Click="Decrypt_MenuItem_Click_1"></MenuItem>
@@ -75,8 +75,8 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="File Name" Width="360" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Header="Created" Width="180" DisplayMemberBinding="{Binding CreationTime}"/>
+                    <GridViewColumn Header="File Name" Width="480" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Created" Width="240" DisplayMemberBinding="{Binding CreationTime}"/>
                     <GridViewColumn Header="Size" Width="180"  DisplayMemberBinding="{Binding Size}"/>
                 </GridView>
             </ListView.View>

@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using Ionic.Zip;
 using System.Windows.Forms;
 using System.Text;
+using System.Text;
 
 namespace WPF_Explorer_Tree
 {
@@ -276,6 +277,79 @@ namespace WPF_Explorer_Tree
 
         }
 
+/*        private void Move_MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var listOfFiles = Files.Where(f => f.IsSelected).ToList();
+
+            listOfFiles[0].Name = "Massaaa";
+        }*/
+
+
+
+        private void Move_MenuItem_Click(object sender, RoutedEventArgs e) {
+
+
+            var selectedFile = Files.FirstOrDefault(f => f.IsSelected);
+
+            FileInfo fileInfo = new FileInfo(selectedFile.Path);
+
+            // opens the dialog window to chose the move destination file
+            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string path = dialog.SelectedPath;
+
+                // getting access to edit the selected file in the system
+
+                FileSecurity fileSecurity = fileInfo.GetAccessControl();
+                string user = Environment.UserName;
+                fileSecurity.AddAccessRule(new FileSystemAccessRule(user, FileSystemRights.FullControl, AccessControlType.Allow));
+                fileInfo.SetAccessControl(fileSecurity);
+
+                // composing the new file name and extension from the user inputs
+
+                var newFilePath = path + "\\" + fileInfo.Name;
+
+                // rename in the system the targeted file
+                File.Move(selectedFile.Path, newFilePath);
+
+            }
+        }
+
+        private void Copy_MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            var selectedFile = Files.FirstOrDefault(f => f.IsSelected);
+
+            FileInfo fileInfo = new FileInfo(selectedFile.Path);
+
+            // opens the dialog window to chose the move destination file
+            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string path = dialog.SelectedPath;
+
+                // getting access to edit the selected file in the system
+
+                FileSecurity fileSecurity = fileInfo.GetAccessControl();
+                string user = Environment.UserName;
+                fileSecurity.AddAccessRule(new FileSystemAccessRule(user, FileSystemRights.FullControl, AccessControlType.Allow));
+                fileInfo.SetAccessControl(fileSecurity);
+
+                // composing the new file name and extension from the user inputs
+
+                var newFilePath = path + "\\" + fileInfo.Name;
+
+                // rename in the system the targeted file
+                File.Copy(selectedFile.Path, newFilePath);
+
+            }
+        }
+
+
+
+
         private void Decrypt_MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
             var listOfFiles = Files.Where(f => f.IsSelected).ToList();
@@ -319,6 +393,9 @@ namespace WPF_Explorer_Tree
 
             }
         }
+
+
+
 
 
 

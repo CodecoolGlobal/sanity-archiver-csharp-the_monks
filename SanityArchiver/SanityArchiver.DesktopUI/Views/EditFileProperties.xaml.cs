@@ -22,37 +22,37 @@ namespace SanityArchiver
         {
             InitializeComponent();
             FileInfos = fileInfo;
+            Files = filesCollection;
         }
 
         private void SaveEdit_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
-            try
-            {
-                FileInfo fileInfo = new FileInfo(FileInfos.Path);
 
-                FileSecurity fileSecurity = fileInfo.GetAccessControl();
-                string user = Environment.UserName;
-                fileSecurity.AddAccessRule(new FileSystemAccessRule(user, FileSystemRights.FullControl, AccessControlType.Allow));
-                fileInfo.SetAccessControl(fileSecurity);
-                FileDetails f = new FileDetails();
-                var newFileName = FileInfos.DirectoryName + "\\" + FileName.Text + "." + Extension.Text;
-                File.Move(FileInfos.Path, newFileName);
-                var myFile = Files.FirstOrDefault(fil => fil.Path == fileInfo.FullName);
-                myFile.Path = newFileName;
-                myFile.Name = "newfilename" + "." + Extension.Text;
-                File.Move(f.Name, Path.ChangeExtension(f.Path, ".jpg"));
-                CollectionViewSource.GetDefaultView(Files).Refresh();
+            // obtained a FileInfo object with infos about the targeted file
 
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                Close();
-            }
+            FileInfo fileInfo = new FileInfo(FileInfos.Path);
+
+            // getting access to edit the selected file in the system
+
+            FileSecurity fileSecurity = fileInfo.GetAccessControl();
+            string user = Environment.UserName;
+            fileSecurity.AddAccessRule(new FileSystemAccessRule(user, FileSystemRights.FullControl, AccessControlType.Allow));
+            fileInfo.SetAccessControl(fileSecurity);
+
+            // composing the new file name and extension from the user inputs
+
+            var newFileName = FileInfos.DirectoryName + "\\" + FileName.Text + "." + Extension.Text;
+
+            // rename in the system the targeted file
+            File.Move(FileInfos.Path, newFileName);
+
+            // rename the target file in the Files ObservableCollection
+            var myFile = Files.FirstOrDefault(fil => fil.Path == fileInfo.FullName);
+            myFile.Path = newFileName;
+            myFile.Name = FileName.Text + "." + Extension.Text;
+
+            Close();
 
         }
 

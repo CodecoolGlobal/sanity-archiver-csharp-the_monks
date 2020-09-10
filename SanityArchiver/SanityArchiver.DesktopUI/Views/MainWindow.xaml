@@ -20,6 +20,7 @@
                     <MenuItem Cursor="Hand" Height="30" Header="_Archive" Click="Archive_MenuItem_Click"></MenuItem>
                     <MenuItem Cursor="Hand" Height="30" Header="_Copy" Click="Copy_MenuItem_Click"></MenuItem>
                     <MenuItem Cursor="Hand" Height="30" Header="_Move" Click="Move_MenuItem_Click"></MenuItem>
+                    <MenuItem Cursor="Hand" Height="30" Header="_Delete" Click="Delete_MenuItem_Click"/>
                     <MenuItem Cursor="Hand" Height="30" Header="_Open" Name="btnOpenFile" Click="btnOpenFile_Click"></MenuItem>
                 </Menu>
             </Border>

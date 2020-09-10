@@ -333,7 +333,6 @@ namespace WPF_Explorer_Tree
         private void Copy_MenuItem_Click(object sender, RoutedEventArgs e)
         {
 
-
             var selectedFile = Files.FirstOrDefault(f => f.IsSelected);
 
             FileInfo fileInfo = new FileInfo(selectedFile.Path);
@@ -426,11 +425,12 @@ namespace WPF_Explorer_Tree
             return size;
         }
 
-
-
-
-
-
+        private void Delete_MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedFile = Files.FirstOrDefault(f => f.IsSelected);
+            Files.Remove(selectedFile);
+            CollectionViewSource.GetDefaultView(Files).Refresh();
+        }
     }
 
 }

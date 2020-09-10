@@ -42,15 +42,20 @@ namespace SanityArchiver
 
             // composing the new file name and extension from the user inputs
 
-            var newFileName = FileInfos.DirectoryName + "\\" + FileName.Text + "." + Extension.Text;
 
-            // rename in the system the targeted file
-            File.Move(FileInfos.Path, newFileName);
+            if (FileName.Text != "" && Extension.Text != "") {
 
-            // rename the target file in the Files ObservableCollection
-            var myFile = Files.FirstOrDefault(fil => fil.Path == fileInfo.FullName);
-            myFile.Path = newFileName;
-            myFile.Name = FileName.Text + "." + Extension.Text;
+                var newFileName = FileInfos.DirectoryName + "\\" + FileName.Text + "." + Extension.Text;
+
+                // rename in the system the targeted file
+                File.Move(FileInfos.Path, newFileName);
+
+                // rename the target file in the Files ObservableCollection
+                var myFile = Files.FirstOrDefault(fil => fil.Path == fileInfo.FullName);
+                myFile.Path = newFileName;
+                myFile.Name = FileName.Text + "." + Extension.Text;
+
+            }
 
             Close();
 

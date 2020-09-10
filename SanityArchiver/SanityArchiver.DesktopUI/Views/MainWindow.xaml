@@ -27,9 +27,9 @@
             <StackPanel></StackPanel>
         </DockPanel>
         <Grid RenderTransformOrigin="0.921,1.139">
-            <TextBlock Name="totalRecording">
-
-            </TextBlock>
+            <Border Name="DirectorySizeArea" Width="120" HorizontalAlignment="Left" Margin="0 10 0 0">
+                <TextBlock Name="totalRecording" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"></TextBlock>
+            </Border>
         </Grid>
         <TreeView x:Name="foldersItem" SelectedItemChanged="foldersItem_SelectedItemChanged" Grid.Row="2" Grid.Column="0" Margin="0 20 0 0" Padding="10" BorderBrush="Black" Foreground="#FFFFFFFF">
             <TreeView.Resources>

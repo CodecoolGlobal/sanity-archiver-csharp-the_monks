@@ -19,6 +19,7 @@ using System.Windows.Forms;
 using System.Text;
 using System.Text;
 using SanityArchiver.DesktopUI.Views;
+using System.Windows.Media;
 
 namespace WPF_Explorer_Tree
 {
@@ -78,8 +79,8 @@ namespace WPF_Explorer_Tree
             else
                             if (FolderSize >= (1 << 10))
                 FolderSizeText = string.Format("{0}Kb", FolderSize >> 10);
+            totalRecording.Background = Brushes.WhiteSmoke;
             totalRecording.Text = $"Folder size: {FolderSizeText}";
-
 
             try
             {

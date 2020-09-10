@@ -15,6 +15,8 @@ using SanityArchiver;
 using System.Windows.Forms.VisualStyles;
 using System.Collections.Generic;
 using Ionic.Zip;
+using System.Windows.Forms;
+using System.Text;
 
 namespace WPF_Explorer_Tree
 {
@@ -104,6 +106,14 @@ namespace WPF_Explorer_Tree
             }
 
 
+        }
+
+        private void btnOpenFile_Click(object sender, RoutedEventArgs e)
+		{
+           
+            var SelectedFile = Files.Where(f => f.IsSelected).ToList()[0];
+            var text = File.ReadAllText(SelectedFile.Path, Encoding.Default);
+            MessageBox.Show(text, SelectedFile.Name, MessageBoxButton.OK);
         }
 
         private static void FileSizeFormat(FileDetails fclass, FileInfo f)

@@ -21,6 +21,7 @@
                     <MenuItem Cursor="Hand" Height="30" Header="_Edit"></MenuItem>
                     <MenuItem Cursor="Hand" Height="30" Header="_Copy"></MenuItem>
                     <MenuItem Cursor="Hand" Height="30" Header="_Move"></MenuItem>
+                    <MenuItem Cursor="Hand" Height="30" Header="_Open" Name="btnOpenFile" Click="btnOpenFile_Click"></MenuItem>
                 </Menu>
             </Border>
             <StackPanel></StackPanel>

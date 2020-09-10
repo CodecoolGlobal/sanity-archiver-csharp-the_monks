@@ -10,7 +10,7 @@ using WPF_Explorer_Tree;
 namespace SanityArchiver
 {
     /// <summary>
-    /// Interaction logic for CommentWindow.xaml
+    /// Interaction logic for EditFileProperties.xaml
     /// </summary>
     public partial class EditFileProperties : Window
     {

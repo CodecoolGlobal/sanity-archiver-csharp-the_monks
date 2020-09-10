@@ -2,11 +2,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:WPF_Explorer_Tree" 
-    Title="Window1" Height="300" Width="300" Loaded="Window_Loaded">
+    Title="Window1" Height="700" Width="700" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -27,10 +27,10 @@
         </DockPanel>
         <Grid RenderTransformOrigin="0.921,1.139">
             <TextBlock Name="totalRecording">
-               
+
             </TextBlock>
         </Grid>
-        <TreeView x:Name="foldersItem" SelectedItemChanged="foldersItem_SelectedItemChanged" Grid.Row="2" Grid.Column="0" Margin="0 20 0 0" Padding="10" Width="Auto" Background="WhiteSmoke" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF">
+        <TreeView x:Name="foldersItem" SelectedItemChanged="foldersItem_SelectedItemChanged" Grid.Row="2" Grid.Column="0" Margin="0 20 0 0" Padding="10" BorderBrush="Black" Foreground="#FFFFFFFF">
             <TreeView.Resources>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="HeaderTemplate">
@@ -53,7 +53,14 @@
                 </Style>
             </TreeView.Resources>
         </TreeView>
-        <ListView ItemsSource="{Binding Files}" x:Name="FilesSection" Margin="20" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="1" BorderThickness="0" Width="760" MouseDoubleClick="files_MouseDoubleClick">
+        <GridSplitter Grid.Column="1" 
+                 Margin="0.2,20.4,0,-23.6" 
+              HorizontalAlignment="Left" 
+              VerticalAlignment="Stretch"
+              Background="WhiteSmoke" 
+              ShowsPreview="true"
+              Width="3" Grid.Row="1"/>
+        <ListView ItemsSource="{Binding Files}" x:Name="FilesSection" Margin="3 20 0 0" MinWidth="200"  HorizontalAlignment="Stretch" Grid.Row="2" Grid.Column="1" BorderThickness="1" MouseDoubleClick="files_MouseDoubleClick" >
             <ListView.Resources>
                 <Style TargetType="ListViewItem" >
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
@@ -61,7 +68,7 @@
             </ListView.Resources>
             <ListView.View>
                 <GridView x:Name="gvFiles">
-                    <GridViewColumn Header="Select" Width="40">
+                    <GridViewColumn Header="Select" Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <CheckBox IsChecked="{Binding IsSelected}" x:Name="FilePath" />

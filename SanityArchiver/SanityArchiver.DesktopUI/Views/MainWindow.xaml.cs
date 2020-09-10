@@ -317,6 +317,11 @@ namespace WPF_Explorer_Tree
 
                 // rename in the system the targeted file
                 File.Move(selectedFile.Path, newFilePath);
+                var myFile = Files.FirstOrDefault(fil => fil.Path == fileInfo.FullName);
+                myFile.DirectoryName = newFilePath;
+                myFile.Path = newFilePath;
+                Files.Remove(myFile);
+                CollectionViewSource.GetDefaultView(Files).Refresh();
 
             }
         }
@@ -348,11 +353,12 @@ namespace WPF_Explorer_Tree
 
                 // rename in the system the targeted file
                 File.Copy(selectedFile.Path, newFilePath);
+                var myFile = Files.FirstOrDefault(fil => fil.Path == fileInfo.FullName);
+                myFile.Path = newFilePath;
+                CollectionViewSource.GetDefaultView(Files).Refresh();
 
             }
         }
-
-
 
 
         private void Decrypt_MenuItem_Click_1(object sender, RoutedEventArgs e)

@@ -18,6 +18,7 @@ using Ionic.Zip;
 using System.Windows.Forms;
 using System.Text;
 using System.Text;
+using SanityArchiver.DesktopUI.Views;
 
 namespace WPF_Explorer_Tree
 {
@@ -219,15 +220,23 @@ namespace WPF_Explorer_Tree
 
                 using (ZipFile zip = new ZipFile())
                 {
-
+                    var zipFile = new FileDetails();
+                    
+                    
                     foreach (FileDetails file in filesToArchive)
                     {
                         zip.AddFile(file.Path);
 
                     }
                     zip.Save(filesToArchive[0].DirectoryName + "\\Archive.zip");
+                    zipFile.Name = "Archive.zip";
+                    var now = new DateTime();
+                    zipFile.CreationTime = now.Date.ToLocalTime().ToString();
+                    Files.Add(zipFile);
 
                 }
+                
+                CollectionViewSource.GetDefaultView(Files).Refresh();
 
             }
             else
@@ -250,8 +259,10 @@ namespace WPF_Explorer_Tree
                 {
                     foreach (FileDetails file in listOfFiles)
                     {
-                        AddEncryption(file.Path);
-                 
+                       
+                        EncryptDecrypt.EncryptFile(file.Path, "12345678");
+                        MessageBox.Show("Encrypted succesfuly " + file.Name);
+
                     }
 
                 }
@@ -260,12 +271,7 @@ namespace WPF_Explorer_Tree
                     Console.WriteLine(ex);
                 }
 
-                Console.ReadLine();
-                void AddEncryption(string FileName)
-                {
-
-                    File.Encrypt(FileName);
-                }
+                
             }
             else 
             {
@@ -371,10 +377,9 @@ namespace WPF_Explorer_Tree
                 try
                 {
                     foreach (FileDetails file in listOfFiles)
-                    {
-                        
-                        RemoveEncryption(file.Path);
-
+                    {  
+                        EncryptDecrypt.DecryptFile(file.Path, "12345678");
+                        MessageBox.Show("Encrypted succesfuly " + file.Name);
                     }
 
                 }
@@ -383,12 +388,7 @@ namespace WPF_Explorer_Tree
                     Console.WriteLine(ex);
                 }
 
-                Console.ReadLine();
-                void RemoveEncryption(string FileName)
-                {
-
-                    File.Decrypt(FileName);
-                }
+                
             }
             else
             {

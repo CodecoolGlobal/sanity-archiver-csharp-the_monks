@@ -430,6 +430,7 @@ namespace WPF_Explorer_Tree
         {
             var selectedFile = Files.FirstOrDefault(f => f.IsSelected);
             Files.Remove(selectedFile);
+            File.Delete(selectedFile.Path);
             CollectionViewSource.GetDefaultView(Files).Refresh();
         }
     }
